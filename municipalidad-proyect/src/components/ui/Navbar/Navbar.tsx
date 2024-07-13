@@ -1,18 +1,34 @@
 "use client";
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import { motion } from 'framer-motion';
 import { FaChevronDown, FaPlus, FaTimes } from 'react-icons/fa';
 import Link from 'next/link';
 
 const Navbar = () => {
     const [openMenu, setOpenMenu] = useState(false);
     const [openSubMenu, setOpenSubMenu] = useState<{ [key: string]: boolean }>({});
+    const timeoutRef = useRef<{ [key: string]: NodeJS.Timeout | null }>({});
 
     const toggleMenu = () => setOpenMenu(!openMenu);
-    const toggleSubMenu = (menu: string) => {
+    const toggleSubMenu = (menu: string, state?: boolean) => {
         setOpenSubMenu(prevState => ({
             ...prevState,
-            [menu]: !prevState[menu]
+            [menu]: state !== undefined ? state : !prevState[menu]
         }));
+    };
+
+    const handleMouseEnter = (menu: string) => {
+        if (timeoutRef.current[menu]) {
+            clearTimeout(timeoutRef.current[menu]!);
+            timeoutRef.current[menu] = null;
+        }
+        toggleSubMenu(menu, true);
+    };
+
+    const handleMouseLeave = (menu: string) => {
+        timeoutRef.current[menu] = setTimeout(() => {
+            toggleSubMenu(menu, false);
+        }, 300);
     };
 
     return (
@@ -51,16 +67,17 @@ const Navbar = () => {
                             )}
                         </button>
                         <Link href="http://example.com">
-                                <img
-                                    className="h-12 w-auto sm:h-14 md:h-16"
-                                    src="/portaltransparencia.webp"
-                                    alt="Portal de Transparencia"
-                                />
+                            <img
+                                className="h-12 w-auto sm:h-14 md:h-16"
+                                src="/portaltransparencia.webp"
+                                alt="Portal de Transparencia"
+                            />
                         </Link>
                     </div>
                     <div className="hidden lg:flex flex-1 items-center justify-center sm:items-stretch sm:justify-between">
                         <div className="flex-shrink-0">
-                            <img
+                            <motion.img
+                                whileHover={{ x: 10 }}
                                 className="h-20 w-auto"
                                 src="/pisacoma.webp"
                                 alt="Logo"
@@ -68,16 +85,27 @@ const Navbar = () => {
                         </div>
                         <div className="hidden sm:block sm:ml-6">
                             <div className="flex space-x-4 items-center">
-                                <div className="relative">
+                                <div
+                                    className="relative"
+                                    onMouseEnter={() => handleMouseEnter('menu1')}
+                                    onMouseLeave={() => handleMouseLeave('menu1')}
+                                >
                                     <button
-                                        onClick={() => toggleSubMenu('menu1')}
                                         className="text-gray-700 hover:bg-gray-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium flex items-center"
+                                        onMouseEnter={() => handleMouseEnter('menu1')}
                                     >
                                         Nuestro Distrito
                                         <FaChevronDown className="ml-1" />
                                     </button>
                                     {openSubMenu['menu1'] && (
-                                        <div className="absolute z-10 mt-2 w-48 bg-white shadow-lg">
+                                        <motion.div
+                                            initial={{ opacity: 0, y: -10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            exit={{ opacity: 0, y: -10 }}
+                                            className="absolute z-10 mt-2 w-48 bg-white shadow-lg"
+                                            onMouseEnter={() => handleMouseEnter('menu1')}
+                                            onMouseLeave={() => handleMouseLeave('menu1')}
+                                        >
                                             <a
                                                 href="#"
                                                 className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
@@ -96,7 +124,7 @@ const Navbar = () => {
                                             >
                                                 Turismo
                                             </a>
-                                        </div>
+                                        </motion.div>
                                     )}
                                 </div>
                                 <a
@@ -111,16 +139,27 @@ const Navbar = () => {
                                 >
                                     Servicios
                                 </a>
-                                <div className="relative">
+                                <div
+                                    className="relative"
+                                    onMouseEnter={() => handleMouseEnter('menu2')}
+                                    onMouseLeave={() => handleMouseLeave('menu2')}
+                                >
                                     <button
-                                        onClick={() => toggleSubMenu('menu2')}
                                         className="text-gray-700 hover:bg-gray-700 hover:text-white px-4 py-2 rounded-md text-sm font-medium flex items-center"
+                                        onMouseEnter={() => handleMouseEnter('menu2')}
                                     >
                                         Transparencia
                                         <FaChevronDown className="ml-1" />
                                     </button>
                                     {openSubMenu['menu2'] && (
-                                        <div className="absolute z-10 mt-2 w-48 bg-white shadow-lg">
+                                        <motion.div
+                                            initial={{ opacity: 0, y: -10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            exit={{ opacity: 0, y: -10 }}
+                                            className="absolute z-10 mt-2 w-48 bg-white shadow-lg"
+                                            onMouseEnter={() => handleMouseEnter('menu2')}
+                                            onMouseLeave={() => handleMouseLeave('menu2')}
+                                        >
                                             <a
                                                 href="#"
                                                 className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
@@ -139,7 +178,7 @@ const Navbar = () => {
                                             >
                                                 Resoluciones de Concejo
                                             </a>
-                                        </div>
+                                        </motion.div>
                                     )}
                                 </div>
                                 <a
@@ -149,11 +188,12 @@ const Navbar = () => {
                                     Notas de prensa
                                 </a>
                                 <Link href="http://example.com">
-                                        <img
-                                            className="h-20 w-auto"
-                                            src="/portaltransparencia.webp"
-                                            alt="Portal de Transparencia"
-                                        />
+                                    <motion.img
+                                        whileHover={{ x: 10 }}
+                                        className="h-20 w-auto"
+                                        src="/portaltransparencia.webp"
+                                        alt="Portal de Transparencia"
+                                    />
                                 </Link>
                             </div>
                         </div>
