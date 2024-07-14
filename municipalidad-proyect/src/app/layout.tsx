@@ -3,6 +3,7 @@ import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Navbar from "@/components/ui/Navbar/Navbar";
+import TopBar from "@/components/ui/Topbar/Topbar";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -31,6 +32,7 @@ export default function RootLayout({
         )}
         suppressHydrationWarning
       >
+        <TopBar/>
         <Navbar />
         {children}
       </body>

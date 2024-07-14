@@ -68,7 +68,7 @@ const Navbar = () => {
                         </button>
                         <Link href="http://example.com">
                             <img
-                                className="h-12 w-auto sm:h-14 md:h-16"
+                                className="h-12 w-auto sm:h-12 md:h-14"
                                 src="/portaltransparencia.webp"
                                 alt="Portal de Transparencia"
                             />
@@ -190,7 +190,7 @@ const Navbar = () => {
                                 <Link href="http://example.com">
                                     <motion.img
                                         whileHover={{ x: 10 }}
-                                        className="h-20 w-auto"
+                                        className="h-16 w-auto"
                                         src="/portaltransparencia.webp"
                                         alt="Portal de Transparencia"
                                     />
