@@ -32,7 +32,6 @@ export default function RootLayout({
         )}
         suppressHydrationWarning
       >
-        <TopBar/>
         <Navbar />
         {children}
       </body>

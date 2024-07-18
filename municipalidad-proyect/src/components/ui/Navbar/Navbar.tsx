@@ -3,6 +3,7 @@ import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { FaChevronDown, FaPlus, FaTimes } from 'react-icons/fa';
 import Link from 'next/link';
+import TopBar from "@/components/ui/Topbar/Topbar";
 
 const Navbar = () => {
     const [openMenu, setOpenMenu] = useState(false);
@@ -32,7 +33,9 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="bg-white shadow-md">
+        <nav className="bg-white shadow-md fixed w-full top-0 z-50">
+                  <TopBar/>
+
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="relative flex items-center justify-between h-24">
                     <div className="flex items-center justify-between w-full lg:hidden">
